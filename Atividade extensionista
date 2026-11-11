@@ -1,0 +1,55 @@
+Projeto Extensionista II: Tecnologia Aplicada à Inclusão Digital – Projeto
+Curso: CST em Gestão da Tecnologia da Informação
+Tema: Promover educação digital acessível no Boqueirão utilizando Python
+Setor de Aplicação: Comunidade do bairro Boqueirão, em Curitiba - PR
+ODS 04: Educação de Qualidade
+"""
+
+class GerenciadorInclusaoDigital:
+    def __init__(self):
+        self.participantes = []
+        self.oficinas = []
+
+    def cadastrar_participante(self, nome, idade, nivel_digital):
+        """Cadastra um morador da comunidade para as oficinas de inclusão digital."""
+        participante = {
+            "nome": nome,
+            "idade": idade,
+            "nivel_digital": nivel_digital
+        }
+        self.participantes.append(participante)
+        print(f"[SUCESSO] Participante {nome} cadastrado com sucesso!")
+
+    def cadastrar_oficina(self, tema, carga_horaria):
+        """Cadastra uma oficina educacional ofertada no bairro Boqueirão."""
+        oficina = {
+            "tema": tema,
+            "carga_horaria": carga_horaria
+        }
+        self.oficinas.append(oficina)
+        print(f"[SUCESSO] Oficina '{tema}' cadastrada com {carga_horaria}h de duração!")
+
+    def listar_dados(self):
+        """Exibe o relatório consolidado da gestão das atividades na comunidade."""
+        print("\n" + "="*50)
+        print(" RELATÓRIO DE GESTÃO - INCLUSÃO DIGITAL (BOQUEIRÃO / PR)")
+        print("="*50)
+        print(f"Total de Moradores Cadastrados: {len(self.participantes)}")
+        for idx, p in enumerate(self.participantes, 1):
+            print(f"  {idx}. Nome: {p['nome']} | Idade: {p['idade']} | Nível: {p['nivel_digital']}")
+        
+        print("\nTotal de Oficinas Educacionais: {len(self.oficinas)}")
+        for idx, o in enumerate(self.oficinas, 1):
+            print(f"  {idx}. Tema: {o['tema']} | Carga Horária: {o['carga_horaria']}h")
+        print("="*50 + "\n")
+
+# Execução do Sistema (Simulação Prática)
+if __name__ == "__main__":
+    sistema = GerenciadorInclusaoDigital()
+    
+    # Cadastrando dados simulados da comunidade do Boqueirão
+    sistema.cadastrar_participante("Maria da Silva", 52, "Iniciante")
+    sistema.cadastrar_oficina("Introdução à Informática e Navegação Segura", 8)
+    
+    # Gerando o relatório final
+    sistema.listar_dados()
