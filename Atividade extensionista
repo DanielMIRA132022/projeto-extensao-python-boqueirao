@@ -38,7 +38,7 @@ class GerenciadorInclusaoDigital:
         for idx, p in enumerate(self.participantes, 1):
             print(f"  {idx}. Nome: {p['nome']} | Idade: {p['idade']} | Nível: {p['nivel_digital']}")
         
-        print("\nTotal de Oficinas Educacionais: {len(self.oficinas)}")
+        print(f"\nTotal de Oficinas Educacionais: {len(self.oficinas)}")
         for idx, o in enumerate(self.oficinas, 1):
             print(f"  {idx}. Tema: {o['tema']} | Carga Horária: {o['carga_horaria']}h")
         print("="*50 + "\n")
