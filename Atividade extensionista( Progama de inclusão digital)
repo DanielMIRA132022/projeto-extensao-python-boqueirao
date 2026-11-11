@@ -1,0 +1,146 @@
+class Participante:
+    def __init__(self, nome, idade, escolaridade, contato):
+        self.nome = nome
+        self.idade = idade
+        self.escolaridade = escolaridade
+        self.contato = contato
+        self.trilha_inscrita = None
+        self.status = "Iniciante"
+
+    def __str__(self):
+        trilha = self.trilha_inscrita if self.trilha_inscrita else "Nenhuma trilha vinculada"
+        return f"Nome: {self.nome} | Idade: {self.idade} anos | Escolaridade: {self.escolaridade} | Contato: {self.contato} | Trilha: {trilha}"
+
+
+class SistemaInclusaoDigital:
+    def __init__(self):
+        self.participantes = []
+        self.trilhas = {
+            "1": {"nome": "Informatica Basica para Idosos e Iniciantes", "carga": "15h", "vagas": 20},
+            "2": {"nome": "Navegacao Segura e Aplicativos Governamentais", "carga": "10h", "vagas": 15},
+            "3": {"nome": "Ferramentas de Escritorio e Criacao de Curriculos", "carga": "20h", "vagas": 15}
+        }
+        self.voluntarios = []
+
+    def cadastrar_morador(self):
+        print("\n--- CADASTRO DE MORADOR (PROGRAMA DE INCLUSAO) ---")
+        nome = input("Digite o nome completo do morador: ").strip()
+        if not nome:
+            print("[ERRO] O nome nao pode estar vazio.")
+            return
+        
+        try:
+            idade = int(input("Digite a idade: "))
+        except ValueError:
+            print("[ERRO] Digite um numero valido para a idade.")
+            return
+
+        escolaridade = input("Digite o nivel de escolaridade (ex: Ensino Fundamental, Medio): ").strip()
+        contato = input("Digite o telefone/WhatsApp de contato: ").strip()
+
+        novo_morador = Participante(nome, idade, escolaridade, contato)
+        
+        print("\nTrilhas de Aprendizagem Disponíveis:")
+        for chave, trilha in self.trilhas.items():
+            print(f"  [{chave}] {trilha['nome']} (Carga: {trilha['carga']})")
+        
+        escolha_trilha = input("Escolha o numero da trilha para matricular o morador: ").strip()
+        if escolha_trilha in self.trilhas:
+            novo_morador.trilha_inscrita = self.trilhas[escolha_trilha]["nome"]
+            print(f"[SUCESSO] Morador matriculado na trilha: {novo_morador.trilha_inscrita}")
+        else:
+            print("[AVISO] Opcao invalida. O morador foi cadastrado sem trilha inicial.")
+
+        self.participantes.append(novo_morador)
+        print(f"[SUCESSO] Perfil de {nome} salvo com sucesso no sistema!\n")
+
+    def consultar_morador(self):
+        print("\n--- CONSULTA DE MORADORES CADASTRADOS ---")
+        if not self.participantes:
+            print("[AVISO] Nenhum morador cadastrado no sistema ate o momento.")
+            return
+
+        termo_busca = input("Digite o nome ou parte do nome do morador para buscar: ").strip().lower()
+        encontrados = []
+
+        for p in self.participantes:
+            if termo_busca in p.nome.lower():
+                encontrados.append(p)
+
+        if encontrados:
+            print(f"\n[SUCESSO] Encontrado(s) {len(encontrados)} registro(s):")
+            print("-" * 65)
+            for idx, morador in enumerate(encontrados, 1):
+                print(f"  {idx}. {morador}")
+            print("-" * 65)
+        else:
+            print(f"[AVISO] Nenhum morador localizado com o termo '{termo_busca}'.")
+
+    def cadastrar_voluntario(self):
+        print("\n--- CADASTRO DE INSTRUTOR / VOLUNTARIO DE TI ---")
+        nome = input("Digite o nome do instrutor de TI: ").strip()
+        especialidade = input("Digite a area de especialidade (ex: Suporte, Programacao, Redes): ").strip()
+        self.voluntarios.append({"nome": nome, "especialidade": especialidade})
+        print(f"[SUCESSO] Voluntario '{nome}' cadastrado para apoio as oficinas!\n")
+
+    def gerar_relatorio_gerencial(self):
+        print("\n" + "="*65)
+        print("          RELATORIO GERENCIAL - PROJETO BOQUEIRAO (ODS 04)")
+        print("="*65)
+        print(f"Total de Moradores Impactados / Cadastrados: {len(self.participantes)}")
+        print(f"Total de Instrutores Voluntarios Ativos: {len(self.voluntarios)}")
+        
+        print("\n--- LISTAGEM GERAL DE MORADORES ---")
+        if not self.participantes:
+            print("  Nenhum morador cadastrado no momento.")
+        else:
+            for idx, p in enumerate(self.participantes, 1):
+                print(f"  {idx}. {p}")
+        
+        print("\n--- EQUIPE DE APOIO TECNICO ---")
+        if not self.voluntarios:
+            print("  Nenhum voluntario cadastrado.")
+        else:
+            for idx, v in enumerate(self.voluntarios, 1):
+                print(f"  {idx}. {v['nome']} - Especialidade: {v['especialidade']}")
+        print("="*65 + "\n")
+
+    def menu_principal(self):
+        while True:
+            print("\n" + "="*50)
+            print("   SISTEMA INTEGRADO DE INCLUSAO DIGITAL - BOQUEIRAO")
+            print("="*50)
+            print("1 - Cadastrar Novo Morador (Inclusao Digital)")
+            print("2 - Consultar / Buscar Morador Cadastrado")
+            print("3 - Cadastrar Instrutor / Voluntario de TI")
+            print("4 - Emitir Relatorio Gerencial Completo")
+            print("5 - Sair do Sistema")
+            
+            opcao = input("\nSelecione a opcao desejada (1-5): ").strip()
+            
+            if opcao == "1":
+                self.cadastrar_morador()
+            elif opcao == "2":
+                self.consultar_morador()
+            elif opcao == "3":
+                self.cadastrar_voluntario()
+            elif opcao == "4":
+                self.gerar_relatorio_gerencial()
+            elif opcao == "5":
+                print("\nEncerrando o sistema extensionista. Obrigado por promover a educacao digital!")
+                break
+            else:
+                print("\n[ERRO] Opcao invalida. Por favor, escolha entre 1 e 5.")
+
+if __name__ == "__main__":
+    app = SistemaInclusaoDigital()
+    # Dados iniciais para demonstrar a busca de forma imediata
+    p1 = Participante("Maria Aparecida", 63, "Ensino Fundamental Incompleto", "(41) 99888-7766")
+    p1.trilha_inscrita = "Informatica Basica para Idosos e Iniciantes"
+    p2 = Participante("Joao Pedro Silva", 45, "Ensino Medio Completo", "(41) 99777-6655")
+    p2.trilha_inscrita = "Navegacao Segura e Aplicativos Governamentais"
+    
+    app.participantes.extend([p1, p2])
+    app.voluntarios.append({"nome": "Daniel Sobrinho (Gestor TI)", "especialidade": "Infraestrutura e Sistemas"})
+    
+    app.menu_principal()
